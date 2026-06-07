@@ -1,0 +1,369 @@
+# 🎓 AI 个性化学习系统
+
+> 基于 **DeepSeek API** 的多智能体协同智慧学习平台  
+> 大学生软件设计大赛参赛作品
+
+---
+
+## 📖 项目简介
+
+本项目摒弃传统繁琐的表单填写，通过**自然语言对话**自动构建学生画像，由**多智能体协同**生成个性化学习资源，规划科学的学习路径，并提供智能辅导和效果评估。
+
+### 核心特色
+
+| 特色 | 说明 |
+|------|------|
+| 💬 **对话式画像** | 聊聊天就能构建6维学习画像，无需填表 |
+| 🤖 **多智能体协同** | 9个专业AI角色协作，提供全方位学习支持 |
+| 📱 **跨端适配** | Web端 + 移动端，随时随地学习 |
+| 🎯 **个性化推荐** | 基于画像的精准资源推送和路径规划 |
+
+---
+
+## 🎬 演示场景
+
+> 以下是一个完整的演示流程，展示系统如何一步步为学生提供服务
+
+### 场景设定
+
+| 角色 | 信息 |
+|------|------|
+| **学生** | 张三，计算机科学与技术专业大二学生 |
+| **目标** | 学习 Python 数据分析，完成课程项目 |
+| **已有基础** | C语言、Java基础，Python 零基础 |
+| **学习偏好** | 喜欢动手实践，视觉型学习者 |
+| **时间** | 2周内完成基础学习，1周完成项目 |
+
+### 完整演示流程（3分钟）
+
+#### Step 1: 初次对话 → 自动构建画像
+
+```
+学生： "我是计算机大二学生，想学机器学习，但Python基础比较薄弱"
+
+系统： 🤖 "你好！我来帮你规划机器学习的学习路径。
+       我先了解一下你的情况：
+       
+       📋 根据我们的对话，我为你构建了以下学习画像：
+       
+       - 知识基础：Python 基础薄弱（需要先补Python）
+       - 认知风格：动手实践型 + 视觉型
+       - 专业背景：计算机大二（C/Java基础不错）
+       - 学习目标：短期→入门机器学习，长期→做AI项目
+       - 学习节奏：中等节奏，喜欢边学边练
+       
+       接下来我为你准备学习资源..."
+```
+
+**前端展示效果：**
+- ChatView 显示对话气泡
+- 用户输入后，AI 回复并自动更新 Dashboard 画像
+- 右下角出现提示："🎯 画像已更新，点击查看"
+
+---
+
+#### Step 2: 查看6维画像雷达
+
+用户切换到「学习画像」页面，看到：
+
+```json
+{
+  "knowledge_base": { "level": "beginner", "desc": "Python基础薄弱" },
+  "cognitive_style": { "type": "visual", "desc": "喜欢图示和动手" },
+  "error_prone": { "categories": ["语法细节", "数据类型"], "desc": "易在语法细节出错" },
+  "major_background": { "major": "计算机科学", "year": "大二" },
+  "learning_goal": { "short_term": "入门机器学习", "long_term": "做AI项目" },
+  "pace_preference": { "speed": "moderate", "practice_density": "high" }
+}
+```
+
+**前端展示效果：**
+- DashboardView 显示6个维度卡片
+- 每个维度有进度条和描述
+- 画像可信度显示 85%
+
+---
+
+#### Step 3: 生成5种个性化学习资源
+
+用户输入主题："Python 基础——列表推导式"
+
+系统 Resource Agent 自动生成：
+
+| 资源类型 | 内容 | 展示方式 |
+|---------|------|---------|
+| 📄 **讲解文档** | 列表推导式的语法、原理、对比 for 循环 | Markdown 渲染 |
+| 🧠 **思维导图** | 列表推导式 → 语法/用途/示例/注意事项 | Mermaid.js |
+| 📝 **练习题** | 3道：选择/填空/代码补全 | 交互式做题 |
+| 📚 **拓展阅读** | 《Python Cookbook》相关章节推荐 | 卡片展示 |
+| 💻 **实操案例** | 用列表推导式处理学生成绩数据 | 代码+步骤 |
+
+**前端展示效果：**
+- LearnView 显示主题输入框
+- 输入后，5个 Tab 分别展示不同资源
+- 思维导图用 Mermaid 渲染（[MindMap.vue](frontend/src/components/MindMap.vue)）
+- 练习题可以交互作答（[ExercisePanel.vue](frontend/src/components/ExercisePanel.vue)）
+
+---
+
+#### Step 4: 规划个性化学习路径
+
+系统根据画像自动规划：
+
+```
+📅 机器学习入门 - 3周学习路径
+
+第1步：Python 基础补强（2天）
+  → 列表/字典/元组 → 函数 → 面向对象
+  资源：[文档] [练习] [实操]
+
+第2步：数据处理基础（3天）
+  → NumPy → Pandas → Matplotlib
+  资源：[文档] [思维导图] [代码案例]
+
+第3步：机器学习入门（5天）
+  → 监督学习 → 无监督学习 → 模型评估
+  资源：[文档] [练习] [实操]
+  
+...
+```
+
+**前端展示效果：**
+- PathTimeline 组件显示时间线
+- 每个步骤可展开查看详情
+
+---
+
+#### Step 5: 智能辅导答疑
+
+```
+学生： "列表推导式和 for 循环哪个性能更好？"
+
+系统： 🤖 Tutor Agent 分析后回答：
+       
+       好问题！让我从几个角度帮你理解：
+       
+       📝 文字解答：
+       列表推导式在大多数情况下比 for 循环快 10-30%...
+       
+       💡 类比理解：
+       for 循环像手动一个个搬砖，列表推导式像用传送带...
+       
+       💻 代码示例：
+       # 用 timeit 测试性能
+       import timeit
+       print(timeit.timeit('[i**2 for i in range(1000)]'))
+       print(timeit.timeit('res=[]; for i in range(1000): res.append(i**2)'))
+       
+       🤔 延伸思考：
+       如果数据量很大（百万级），你觉得哪种方式更适合？
+```
+
+---
+
+#### Step 6: 学习评估与路径调整
+
+```
+学生做完练习题后，系统评估：
+- 列表推导式语法：正确率 80% ✅
+- 条件筛选：正确率 50% ⚠️ 薄弱
+- lambda 表达式：正确率 30% ❌ 需要加强
+
+系统自动：→ 调整路径，增加 lambda 练习 → 更新画像易错点
+```
+
+---
+
+## 🏗️ 项目结构
+
+```
+ai-learning-assistant/
+├── backend/                          # 后端 (FastAPI + Python)
+│   ├── main.py                       # FastAPI 应用入口
+│   ├── config.py                     # 配置管理
+│   ├── database.py                   # SQLite 数据库
+│   ├── models.py                     # Pydantic 数据模型
+│   ├── requirements.txt              # Python 依赖
+│   ├── .env.example                  # 环境变量示例
+│   ├── llm/
+│   │   ├── __init__.py
+│   │   └── deepseek_client.py        # DeepSeek API 客户端
+│   └── agents/
+│       ├── __init__.py
+│       ├── base.py                   # Agent 基类
+│       ├── orchestrator.py           # 🧠 编排协调器
+│       ├── profile_agent.py          # 📋 画像智能体
+│       ├── resource_agent.py         # 📚 资源生成智能体
+│       ├── path_agent.py             # 🗺️ 路径规划智能体
+│       ├── tutor_agent.py            # 🎓 辅导智能体
+│       └── evaluator_agent.py        # 📊 评估智能体
+│
+├── frontend/                         # 前端 (Vue3 + TypeScript)
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.ts
+│   ├── tsconfig.json
+│   └── src/
+│       ├── main.ts                   # 入口
+│       ├── App.vue                   # 根组件（跨端切换）
+│       ├── env.d.ts                  # 类型声明
+│       ├── router/
+│       │   └── index.ts              # 路由配置
+│       ├── stores/
+│       │   ├── chat.ts               # 对话状态管理
+│       │   └── learning.ts           # 学习状态管理
+│       ├── api/
+│       │   └── index.ts              # 后端 API 调用层
+│       ├── composables/
+│       │   └── useDevice.ts          # 设备检测 composable
+│       ├── layouts/
+│       │   ├── WebLayout.vue         # Web 端布局
+│       │   └── MobileLayout.vue      # 移动端布局
+│       ├── views/
+│       │   ├── ChatView.vue          # 对话页面
+│       │   ├── DashboardView.vue     # 画像仪表盘
+│       │   └── LearnView.vue         # 学习中心
+│       ├── components/
+│       │   ├── ResourceCard.vue      # 资源卡片
+│       │   ├── MindMap.vue           # 思维导图
+│       │   ├── ExercisePanel.vue     # 练习题面板
+│       │   └── PathTimeline.vue      # 学习路径时间线
+│       └── styles/
+│           └── responsive.scss       # 响应式样式
+│
+└── 项目重点文档.md                     # 核心技术文档
+```
+
+---
+
+## 🚀 快速开始
+
+### 环境要求
+
+- **后端**: Python 3.10+ 
+- **前端**: Node.js 18+
+- **API**: DeepSeek API Key（[去注册](https://platform.deepseek.com/)）
+
+### 第一步：配置 DeepSeek API
+
+```bash
+cd backend
+cp .env.example .env
+# 编辑 .env，填入你的 API Key
+# DEEPSEEK_API_KEY=sk-your-key-here
+```
+
+### 第二步：启动后端
+
+```bash
+cd backend
+pip install -r requirements.txt
+python main.py
+# 服务运行在 http://localhost:8000
+# API 文档 http://localhost:8000/docs
+```
+
+### 第三步：启动前端
+
+```bash
+cd frontend
+npm install
+npm run dev
+# 访问 http://localhost:5173
+```
+
+---
+
+## 🤖 多智能体架构
+
+```
+                    ┌──────────────────┐
+                    │  Orchestrator    │ ← 编排协调器，管理所有智能体
+                    └────┬──────┬──────┘
+                         │      │
+         ┌───────────────┼──────┼──────────────────┐
+         │               │      │                   │
+    ┌────▼───┐    ┌──────▼──┐ ┌▼──────┐ ┌─────▼───┐ ┌─────▼───┐
+    │ Profile │    │ Resource│ │  Path  │ │  Tutor  │ │Evaluator│
+    └────────┘    └─────────┘ └───────┘ └─────────┘ └─────────┘
+                       │
+         ┌─────────────┼─────────────┐
+         │             │             │
+    ┌────▼───┐   ┌─────▼───┐  ┌─────▼───┐
+    │  Code   │   │Knowledge│  │Exercise │
+    └────────┘   └─────────┘  └─────────┘
+```
+
+| 智能体 | 角色 | 关键职责 |
+|--------|------|---------|
+| Orchestrator | 总协调 | 调度工作流，Agent 间数据传递 |
+| Profile | 画像分析师 | 6维画像抽取、增量更新 |
+| Resource | 课程专家 | 生成5种个性化学习资源 |
+| Path | 路径规划师 | 制定动态学习路径 |
+| Tutor | 辅导教师 | 即时答疑、多模态讲解 |
+| Evaluator | 评估师 | 多维评估、路径调整建议 |
+
+---
+
+## 📱 跨端适配说明
+
+本项目通过设备检测实现跨端适配：
+
+| 端 | 布局 | 导航 | 组件库 |
+|----|------|------|--------|
+| **Web** (≥1024px) | 侧边栏 + 主内容区 | 左侧导航 | Element Plus |
+| **Tablet** (768-1024px) | 同上，自适应宽度 | 左侧导航 | Element Plus |
+| **Mobile** (<768px) | 底部 Tab + 单列内容 | 底部 Tab栏 | Vant |
+
+核心实现：
+- [useDevice.ts](frontend/src/composables/useDevice.ts) - 设备检测
+- [WebLayout.vue](frontend/src/layouts/WebLayout.vue) - Web布局
+- [MobileLayout.vue](frontend/src/layouts/MobileLayout.vue) - 移动端布局
+- [App.vue](frontend/src/App.vue) - 自动切换布局
+
+---
+
+## 🧑‍💻 前端开发指南（你的主要工作）
+
+### 你需要修改/完成的核心文件
+
+| 文件 | 重要性 | 说明 |
+|------|--------|------|
+| [ChatView.vue](frontend/src/views/ChatView.vue) | ⭐⭐⭐ | 对话页面，最重要的用户交互入口 |
+| [DashboardView.vue](frontend/src/views/DashboardView.vue) | ⭐⭐⭐ | 画像展示，需要整合 ECharts 雷达图 |
+| [LearnView.vue](frontend/src/views/LearnView.vue) | ⭐⭐⭐ | 学习资源展示，包含5种资源类型 |
+| [ExercisePanel.vue](frontend/src/components/ExercisePanel.vue) | ⭐⭐ | 练习题交互组件，可以增加更多题型 |
+| [MindMap.vue](frontend/src/components/MindMap.vue) | ⭐⭐ | Mermaid 思维导图渲染 |
+| [PathTimeline.vue](frontend/src/components/PathTimeline.vue) | ⭐⭐ | 学习路径时间线 |
+| [useDevice.ts](frontend/src/composables/useDevice.ts) | ⭐⭐ | 跨端适配核心逻辑 |
+| [api/index.ts](frontend/src/api/index.ts) | ⭐⭐ | API 调用封装 |
+| [stores/chat.ts](frontend/src/stores/chat.ts) | ⭐⭐ | 对话状态管理 |
+| [stores/learning.ts](frontend/src/stores/learning.ts) | ⭐⭐ | 学习状态管理 |
+
+### 开发建议
+
+1. **先跑起来**：npm install → npm run dev，看到页面
+2. **改 ChatView**：这是最重要的页面，优化消息展示和交互
+3. **加 ECharts 雷达图**：在 DashboardView 加入真正的雷达图（参考 ch04）
+4. **美化 LearnView**：让5种资源展示更漂亮
+5. **调跨端适配**：用手机浏览器测试移动端效果
+
+---
+
+## 📋 比赛演示检查清单
+
+- [ ] 后端能正常启动，API 健康检查通过
+- [ ] 前端能正常启动，页面展示正常
+- [ ] Web 端和移动端布局都能正常显示
+- [ ] 输入"我是计算机大二..."能正常对话
+- [ ] 画像页面展示完整6个维度
+- [ ] 输入学习主题能生成5种资源
+- [ ] 学习路径时间线展示正常
+- [ ] 练习题可以交互作答
+- [ ] 智能辅导能回答问题
+
+---
+
+## 📄 许可证
+
+本项目仅用于大学生软件设计大赛

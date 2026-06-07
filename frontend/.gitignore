@@ -1,0 +1,10 @@
+node_modules
+dist
+*.local
+auto-imports.d.ts
+components.d.ts
+pnpm-lock.yaml
+.env
+.pycache
+*.pyc
+*.db

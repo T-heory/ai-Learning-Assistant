@@ -1,0 +1,23 @@
+:root {
+  --primary-color: #409eff;
+  --success-color: #67c23a;
+  --warning-color: #e6a23c;
+  --danger-color: #f56c6c;
+  --bg-color: #f5f7fa;
+  --card-bg: #ffffff;
+  --text-primary: #303133;
+  --text-secondary: #606266;
+  --text-placeholder: #c0c4cc;
+  --border-color: #dcdfe6;
+  --sidebar-width: 220px;
+  --header-height: 60px;
+  --mobile-tab-height: 50px;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: #c0c4cc; border-radius: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
