@@ -154,9 +154,7 @@
        import timeit
        print(timeit.timeit('[i**2 for i in range(1000)]'))
        print(timeit.timeit('res=[]; for i in range(1000): res.append(i**2)'))
-       
-       🤔 延伸思考：
-       如果数据量很大（百万级），你觉得哪种方式更适合？
+
 ```
 
 ---
@@ -174,105 +172,11 @@
 
 ---
 
-## 🏗️ 项目结构
-
-```
-ai-learning-assistant/
-├── backend/                          # 后端 (FastAPI + Python)
-│   ├── main.py                       # FastAPI 应用入口
-│   ├── config.py                     # 配置管理
-│   ├── database.py                   # SQLite 数据库
-│   ├── models.py                     # Pydantic 数据模型
-│   ├── requirements.txt              # Python 依赖
-│   ├── .env.example                  # 环境变量示例
-│   ├── llm/
-│   │   ├── __init__.py
-│   │   └── deepseek_client.py        # DeepSeek API 客户端
-│   └── agents/
-│       ├── __init__.py
-│       ├── base.py                   # Agent 基类
-│       ├── orchestrator.py           # 🧠 编排协调器
-│       ├── profile_agent.py          # 📋 画像智能体
-│       ├── resource_agent.py         # 📚 资源生成智能体
-│       ├── path_agent.py             # 🗺️ 路径规划智能体
-│       ├── tutor_agent.py            # 🎓 辅导智能体
-│       └── evaluator_agent.py        # 📊 评估智能体
-│
-├── frontend/                         # 前端 (Vue3 + TypeScript)
-│   ├── index.html
-│   ├── package.json
-│   ├── vite.config.ts
-│   ├── tsconfig.json
-│   └── src/
-│       ├── main.ts                   # 入口
-│       ├── App.vue                   # 根组件（跨端切换）
-│       ├── env.d.ts                  # 类型声明
-│       ├── router/
-│       │   └── index.ts              # 路由配置
-│       ├── stores/
-│       │   ├── chat.ts               # 对话状态管理
-│       │   └── learning.ts           # 学习状态管理
-│       ├── api/
-│       │   └── index.ts              # 后端 API 调用层
-│       ├── composables/
-│       │   └── useDevice.ts          # 设备检测 composable
-│       ├── layouts/
-│       │   ├── WebLayout.vue         # Web 端布局
-│       │   └── MobileLayout.vue      # 移动端布局
-│       ├── views/
-│       │   ├── ChatView.vue          # 对话页面
-│       │   ├── DashboardView.vue     # 画像仪表盘
-│       │   └── LearnView.vue         # 学习中心
-│       ├── components/
-│       │   ├── ResourceCard.vue      # 资源卡片
-│       │   ├── MindMap.vue           # 思维导图
-│       │   ├── ExercisePanel.vue     # 练习题面板
-│       │   └── PathTimeline.vue      # 学习路径时间线
-│       └── styles/
-│           └── responsive.scss       # 响应式样式
-│
-└── 项目重点文档.md                     # 核心技术文档
-```
-
----
-
-## 🚀 快速开始
-
 ### 环境要求
 
 - **后端**: Python 3.10+ 
 - **前端**: Node.js 18+
 - **API**: DeepSeek API Key（[去注册](https://platform.deepseek.com/)）
-
-### 第一步：配置 DeepSeek API
-
-```bash
-cd backend
-cp .env.example .env
-# 编辑 .env，填入你的 API Key
-# DEEPSEEK_API_KEY=sk-your-key-here
-```
-
-### 第二步：启动后端
-
-```bash
-cd backend
-pip install -r requirements.txt
-python main.py
-# 服务运行在 http://localhost:8000
-# API 文档 http://localhost:8000/docs
-```
-
-### 第三步：启动前端
-
-```bash
-cd frontend
-npm install
-npm run dev
-# 访问 http://localhost:5173
-```
-
----
 
 ## 🤖 多智能体架构
 
@@ -321,49 +225,3 @@ npm run dev
 - [MobileLayout.vue](frontend/src/layouts/MobileLayout.vue) - 移动端布局
 - [App.vue](frontend/src/App.vue) - 自动切换布局
 
----
-
-## 🧑‍💻 前端开发指南（你的主要工作）
-
-### 你需要修改/完成的核心文件
-
-| 文件 | 重要性 | 说明 |
-|------|--------|------|
-| [ChatView.vue](frontend/src/views/ChatView.vue) | ⭐⭐⭐ | 对话页面，最重要的用户交互入口 |
-| [DashboardView.vue](frontend/src/views/DashboardView.vue) | ⭐⭐⭐ | 画像展示，需要整合 ECharts 雷达图 |
-| [LearnView.vue](frontend/src/views/LearnView.vue) | ⭐⭐⭐ | 学习资源展示，包含5种资源类型 |
-| [ExercisePanel.vue](frontend/src/components/ExercisePanel.vue) | ⭐⭐ | 练习题交互组件，可以增加更多题型 |
-| [MindMap.vue](frontend/src/components/MindMap.vue) | ⭐⭐ | Mermaid 思维导图渲染 |
-| [PathTimeline.vue](frontend/src/components/PathTimeline.vue) | ⭐⭐ | 学习路径时间线 |
-| [useDevice.ts](frontend/src/composables/useDevice.ts) | ⭐⭐ | 跨端适配核心逻辑 |
-| [api/index.ts](frontend/src/api/index.ts) | ⭐⭐ | API 调用封装 |
-| [stores/chat.ts](frontend/src/stores/chat.ts) | ⭐⭐ | 对话状态管理 |
-| [stores/learning.ts](frontend/src/stores/learning.ts) | ⭐⭐ | 学习状态管理 |
-
-### 开发建议
-
-1. **先跑起来**：npm install → npm run dev，看到页面
-2. **改 ChatView**：这是最重要的页面，优化消息展示和交互
-3. **加 ECharts 雷达图**：在 DashboardView 加入真正的雷达图（参考 ch04）
-4. **美化 LearnView**：让5种资源展示更漂亮
-5. **调跨端适配**：用手机浏览器测试移动端效果
-
----
-
-## 📋 比赛演示检查清单
-
-- [ ] 后端能正常启动，API 健康检查通过
-- [ ] 前端能正常启动，页面展示正常
-- [ ] Web 端和移动端布局都能正常显示
-- [ ] 输入"我是计算机大二..."能正常对话
-- [ ] 画像页面展示完整6个维度
-- [ ] 输入学习主题能生成5种资源
-- [ ] 学习路径时间线展示正常
-- [ ] 练习题可以交互作答
-- [ ] 智能辅导能回答问题
-
----
-
-## 📄 许可证
-
-本项目仅用于大学生软件设计大赛
